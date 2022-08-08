@@ -1,0 +1,2 @@
+realbot:rplidar_ros
+-DCATKIN_DEVEL_PREFIX=/home/jazz/Library.0/4-Robotics/4-Robot-Cores/Frankenstein-Differential/ROS-Core/devel -DCMAKE_INSTALL_PREFIX=/home/jazz/Library.0/4-Robotics/4-Robot-Cores/Frankenstein-Differential/ROS-Core/install -G Unix Makefiles

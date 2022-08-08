@@ -1,0 +1,8 @@
+prefix=/home/jazz/Library.0/4-Robotics/4-Robot-Cores/Frankenstein-Differential/ROS-Core/install
+
+Name: realbot
+Description: Description of realbot
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

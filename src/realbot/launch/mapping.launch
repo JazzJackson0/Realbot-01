@@ -1,0 +1,50 @@
+<launch>
+    
+    <!--Args, Params & Includes-->
+    <arg name="model"/>
+    <arg name="gui" default="False"/>
+    <param name="use_gui" value="$(arg gui)"/>
+    <param name="robot_description" textfile="$(find realbot)/urdf/diffbot2wheel_processed.urdf"/>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find realbot)/world/little-room-world.world"/>
+        <arg name="use_sim_time" value="true"/>
+    </include>
+    
+    <!--Run Joint State Publisher (Send Fake Joint Values)-->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" 
+        type="joint_state_publisher"/>
+
+
+    <!--Run Robot State Publisher-->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" 
+        type="robot_state_publisher" output="screen">
+        <param name="publish_frequency" type="double" value="50.0"/>
+    </node>
+
+
+    <!--Run Gazebo-->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -param robot_description -model my_robot_name -z 0.25"/>
+
+    <!--Run RViz-->
+    <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find urdf_tutorial)/urdf.vcg"/-->
+    <node name="rviz" pkg="rviz" type="rviz"/>
+
+    <!--Teleoperation-->
+    <node name="teleop_twist_keyboard" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen"/>
+
+    <!--Run GMapping-->
+    <arg name="scan_topic" default="rrbot/laser/scan"/>
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+        <param name="odom_frame" value="odom"/>
+        <param name="basic_frame" value="base_link"/>
+        <param name="map_frame" value="map"/>
+        <remap from="scan" to="$(arg scan_topic)"/>
+    </node> 
+    
+</launch>
+
+
+
+     
